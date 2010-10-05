@@ -296,8 +296,14 @@ function callblast_get_recordings() {
  *  Specifically, URLs of messages to be played.
  */
 function _callblast_message_vars($node) {
-  // URL to audio message, to be passed to VoipScript when script loads
-  $url_tmp = $node->field_callblast_audio_file[0]['filepath'];
+  // URL to uploaded audio message
+  $upload = $node->field_callblast_audio_file[0]['filepath'];
+  // URL to phone-recorded audio message
+  $recording = $node->field_callblast_recording0[0]['value'];
+  // There should be either an uploaded file OR a URL to a recording. 
+  // todo Add error handling here in case a node has both a recording URL and uploaded file URL.
+  $url_tmp = ($upload) ? $upload : $recording; 
+  // set Main Message url 
   $message_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
 
   // call forwarding number

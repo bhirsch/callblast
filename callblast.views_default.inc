@@ -494,7 +494,7 @@ function callblast_views_default_views() {
       ),
       'relationship' => 'none',
     ),
-    'field_callblast_audio_file_fid' => array(
+    'field_callblast_upload0_fid' => array(
       'label' => 'Message',
       'alter' => array(
         'alter_text' => 0,
@@ -527,9 +527,9 @@ function callblast_views_default_views() {
         'multiple_reversed' => FALSE,
       ),
       'exclude' => 0,
-      'id' => 'field_callblast_audio_file_fid',
-      'table' => 'node_data_field_callblast_audio_file',
-      'field' => 'field_callblast_audio_file_fid',
+      'id' => 'field_callblast_upload0_fid',
+      'table' => 'node_data_field_callblast_upload0',
+      'field' => 'field_callblast_upload0_fid',
       'relationship' => 'none',
     ),
     'field_callblast_calllist_value' => array(
