@@ -6,16 +6,16 @@
 function call_blast_menus_menu_default_menu_custom() {
   $menus = array();
 
-  // Exported menu: primary-links
-  $menus['primary-links'] = array(
-    'menu_name' => 'primary-links',
-    'title' => 'Primary links',
-    'description' => 'Primary links are often used at the theme layer to show the major sections of a site. A typical representation for primary links would be tabs along the top.',
+  // Exported menu: features
+  $menus['features'] = array(
+    'menu_name' => 'features',
+    'title' => 'Features',
+    'description' => 'Menu items for any enabled features.',
   );
   // Translatables
   // Included for use with string extractors like potx.
-  t('Primary links');
-  t('Primary links are often used at the theme layer to show the major sections of a site. A typical representation for primary links would be tabs along the top.');
+  t('Features');
+  t('Menu items for any enabled features.');
 
 
   return $menus;
