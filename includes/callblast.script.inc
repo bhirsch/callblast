@@ -184,11 +184,11 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
 
       $script->addGotoIf('end call', "^%input_digits == '#'");
 
-      $script->addSay('Invalid input received. Please try again.');
+      $script->addSay('Invalid input. Please try again.');
       $script->addGoto('accept menu');
 
       $script->addLabel('accept recording');
-      $script->addSay('About to start processing the recorded file.');
+      //$script->addSay('About to start processing the recorded file.');
       // Set variables from $vars to pass to callback function.
       $script->addSet('uid', $vars['uid']); 
       $script->addSet('name', $vars['name']); 
@@ -197,7 +197,7 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
       $script->addSet('callback_result',
         '^_callblast_record_callback(%call_id, %recording_url, %recording_duration, %uid, %name, %number)');
 
-      $script->addSay('The callback returned: %callback_result');
+      $script->addSay('%callback_result');
       $script->addGoto('end call');
 
       $script->addLabel('no input received');
@@ -205,7 +205,7 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
       $script->addGoto('start');
 
       $script->addLabel('end call');
-      $script->addSay('Bye bye.');
+      $script->addSay('Goodbye.');
       $script->addHangup();
 
     break;
@@ -232,6 +232,6 @@ function _callblast_record_callback($call_id, $recording_url, $recording_duratio
   $severity = WATCHDOG_NOTICE;
   watchdog($type, $message);
 
-  return 'Success.';
+  return 'Thank you.';
 }
 
