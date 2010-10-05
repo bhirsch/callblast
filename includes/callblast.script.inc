@@ -101,55 +101,55 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
       $script->addLabel('one');
       $script->addPlay($vars['one_url']);
       // go back to "options" menu
-      $script->addGoto('end_call');
+      $script->addGoto('options');
 
       // option/message two 
       $script->addLabel('two');
       $script->addPlay($vars['two_url']);
       // go back to "options" menu
-      $script->addGoto('end_call');
+      $script->addGoto('options');
 
       // option/message three 
       $script->addLabel('three');
       $script->addPlay($vars['three_url']);
       // go back to "options" menu
-      $script->addGoto('end_call');
+      $script->addGoto('options');
 
       // option/message four 
       $script->addLabel('four');
       $script->addPlay($vars['four_url']);
       // go back to "options" menu
-      $script->addGoto('end_call');
+      $script->addGoto('options');
 
       // option/message five 
       $script->addLabel('five');
       $script->addPlay($vars['five_url']);
       // go back to "options" menu
-      $script->addGoto('end_call');
+      $script->addGoto('options');
 
       // option/message six
       $script->addLabel('six');
       $script->addPlay($vars['six_url']);
       // go back to "options" menu
-      $script->addGoto('end_call');
+      $script->addGoto('options');
 
       // option/message seven
       $script->addLabel('seven');
       $script->addPlay($vars['seven_url']);
       // go back to "options" menu
-      $script->addGoto('end_call');
+      $script->addGoto('options');
 
       // option/message eight
       $script->addLabel('eight');
       $script->addPlay($vars['eight_url']);
       // go back to "options" menu
-      $script->addGoto('end_call');
+      $script->addGoto('options');
 
       // option/message nine
       $script->addLabel('nine');
       $script->addPlay($vars['nine_url']);
       // go back to "options" menu
-      $script->addGoto('end_call');
+      $script->addGoto('options');
 
       // end call (hang up)
       $script->addLabel('end_call');
