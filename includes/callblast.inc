@@ -296,74 +296,84 @@ function callblast_get_recordings() {
  *  Specifically, URLs of messages to be played.
  */
 function _callblast_message_vars($node) {
-  // URL to uploaded audio message
-  $upload = $node->field_callblast_audio_file[0]['filepath'];
-  // URL to phone-recorded audio message
-  $recording = $node->field_callblast_recording0[0]['value'];
-  // There should be either an uploaded file OR a URL to a recording. 
-  // todo Add error handling here in case a node has both a recording URL and uploaded file URL.
-  $url_tmp = ($upload) ? $upload : $recording; 
-  // set Main Message url 
-  $message_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+  global $base_url;
 
   // call forwarding number
   $forward_to_number = $node->field_callblast_call_forward[0]['value']; 
 
   // options
-  $url_tmp = $node->field_callblast_audio_options[0]['filepath'];
-  $options_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+  $upload = $node->field_callblast_upload_ops[0]['filepath'];
+  $recording = $node->field_callblast_recording_ops[0]['value'];
+  $options_url = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
 
-  // message one
-  $url_tmp = $node->field_callblast_audio_one[0]['filepath'];
-  $one_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+  $message_url = array();
+  // main message
+  $upload = $node->field_callblast_upload0[0]['filepath']; 
+  $recording = $node->field_callblast_recording0[0]['value']; 
+  $message_url[0] = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
+  // button 1
+  $upload = $node->field_callblast_upload1[0]['filepath']; 
+  $recording = $node->field_callblast_recording1[0]['value']; 
+  $message_url[1] = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
+  // button 2
+  $upload = $node->field_callblast_upload2[0]['filepath']; 
+  $recording = $node->field_callblast_recording2[0]['value']; 
+  $message_url[2] = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
+  // button 3
+  $upload = $node->field_callblast_upload3[0]['filepath']; 
+  $recording = $node->field_callblast_recording3[0]['value']; 
+  $message_url[3] = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
+  // button 4
+  $upload = $node->field_callblast_upload4[0]['filepath']; 
+  $recording = $node->field_callblast_recording4[0]['value']; 
+  $message_url[4] = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
+  // button 5
+  $upload = $node->field_callblast_upload5[0]['filepath']; 
+  $recording = $node->field_callblast_recording5[0]['value']; 
+  $message_url[5] = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
+  // button 6
+  $upload = $node->field_callblast_upload6[0]['filepath']; 
+  $recording = $node->field_callblast_recording6[0]['value']; 
+  $message_url[6] = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
+  // button 7
+  $upload = $node->field_callblast_upload7[0]['filepath']; 
+  $recording = $node->field_callblast_recording7[0]['value']; 
+  $message_url[7] = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
+  // button 8
+  $upload = $node->field_callblast_upload8[0]['filepath']; 
+  $recording = $node->field_callblast_recording8[0]['value']; 
+  $message_url[8] = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
+  // button 9
+  $upload = $node->field_callblast_upload9[0]['filepath']; 
+  $recording = $node->field_callblast_recording9[0]['value']; 
+  $message_url[9] = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
 
-  // message two
-  $url_tmp = $node->field_callblast_audio_two[0]['filepath'];
-  $two_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message three
-  $url_tmp = $node->field_callblast_audio_three[0]['filepath'];
-  $three_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message four
-  $url_tmp = $node->field_callblast_audio_four[0]['filepath'];
-  $four_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message five
-  $url_tmp = $node->field_callblast_audio_five[0]['filepath'];
-  $five_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message six
-  $url_tmp = $node->field_callblast_audio_six[0]['filepath'];
-  $six_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message seven
-  $url_tmp = $node->field_callblast_audio_seve[0]['filepath'];
-  $seven_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message eight
-  $url_tmp = $node->field_callblast_audio_eigh[0]['filepath'];
-  $eight_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message nine
-  $url_tmp = $node->field_callblast_audio_nine[0]['filepath'];
-  $nine_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // pass $vars as parameters to VoipScript
   $vars = array(
-    'message_url' => $message_url, 
+    // main message
+    'message_url' => $message_url[0], 
+    // forwarding number (when user hits 0)
     'forward_to_number' => $forward_to_number,
+    // options
     'options_url' => $options_url,
-    'one_url' => $one_url,
-    'two_url' => $two_url,
-    'three_url' => $three_url,
-    'four_url' => $four_url,
-    'five_url' => $five_url,
-    'six_url' => $six_url,
-    'seven_url' => $seven_url,
-    'eight_url' => $eight_url,
-    'nine_url' => $nine_url,
+    // button 1
+    'one_url' => $message_url[1],
+    // button 2
+    'two_url' => $message_url[2],
+    // button 3
+    'three_url' => $message_url[3],
+    // button 4
+    'four_url' => $message_url[4],
+    // button 5
+    'five_url' => $message_url[5],
+    // button 6
+    'six_url' => $message_url[6],
+    // button 7
+    'seven_url' => $message_url[7],
+    // button 8
+    'eight_url' => $message_url[8],
+    // button 9
+    'nine_url' => $message_url[9],
   );
 
-
+  return $vars;
 }
