@@ -9,6 +9,10 @@
  */
 function callblast_install() {
   drupal_install_schema('callblast');
+  // Increase weight of new tables to 0.
+  // This way CCK fields can be form altered
+  // in callblast.module and calllist.module.
+  db_query("UPDATE {system} SET weight = 1 WHERE name = 'callblast' OR name = 'calllist' ");
 }
 
 /**
@@ -113,4 +117,13 @@ function callblast_schema() {
   );
 
   return $schema;
+}
+
+/**
+ * Increase weight of new tables to 0.
+ * This way CCK fields can be form altered
+ * in callblast.module and calllist.module.
+ */
+function callblast_update_6001() {
+  db_query("UPDATE {system} SET weight = 1 WHERE name = 'callblast' OR name = 'calllist' ");
 }
