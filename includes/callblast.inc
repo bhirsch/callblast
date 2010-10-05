@@ -29,6 +29,7 @@ function callblast_list_autocomplete() {
 /**
  * Implementation of hook_voip_get_script().
  */
+// TODO Delete? Is this still useful for anything? Cruft? 
 function callblast_voip_get_script() {
   // TODO: this function should return callblast-specific scripts.  The "hello_world" script has already been defined by voip_tester.module
   // NOTE: How to name scripts? <module_prefix>_name.xml? Do we need the .xml?
@@ -129,70 +130,10 @@ function callblast_save_voipcalls($list, $node) {
   $details['caller name'] = $node->field_callblast_caller_name[0]['value'];
   $details['parent node'] = $node->nid; // TODO delete?
   $details['scheduled start'] = $node->field_callblast_scheduled_start[0]['value'];
-
-  // URL to audio message, to be passed to VoipScript when script loads
-  $url_tmp = $node->field_callblast_audio_file[0]['filepath'];
-  $message_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // call forwarding number
-  $forward_to_number = $node->field_callblast_call_forward[0]['value']; 
-
-  // options
-  $url_tmp = $node->field_callblast_audio_options[0]['filepath'];
-  $options_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message one
-  $url_tmp = $node->field_callblast_audio_one[0]['filepath'];
-  $one_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message two
-  $url_tmp = $node->field_callblast_audio_two[0]['filepath'];
-  $two_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message three
-  $url_tmp = $node->field_callblast_audio_three[0]['filepath'];
-  $three_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message four
-  $url_tmp = $node->field_callblast_audio_four[0]['filepath'];
-  $four_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message five
-  $url_tmp = $node->field_callblast_audio_five[0]['filepath'];
-  $five_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message six
-  $url_tmp = $node->field_callblast_audio_six[0]['filepath'];
-  $six_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message seven
-  $url_tmp = $node->field_callblast_audio_seve[0]['filepath'];
-  $seven_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message eight
-  $url_tmp = $node->field_callblast_audio_eigh[0]['filepath'];
-  $eight_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // message nine
-  $url_tmp = $node->field_callblast_audio_nine[0]['filepath'];
-  $nine_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
-
-  // pass $vars as parameters to VoipScript
-  $vars = array(
-    'message_url' => $message_url, 
-    'forward_to_number' => $forward_to_number,
-    'options_url' => $options_url,
-    'one_url' => $one_url,
-    'two_url' => $two_url,
-    'three_url' => $three_url,
-    'four_url' => $four_url,
-    'five_url' => $five_url,
-    'six_url' => $six_url,
-    'seven_url' => $seven_url,
-    'eight_url' => $eight_url,
-    'nine_url' => $nine_url,
-  );
-
+ 
+  // Get variables to pass to script. (URLs of messages to be played.)
+  $vars = _callblast_message_vars($node);
+  
   // load voip script
   $script = VoipScript::loadScript('callblast_message', $vars);
   $details['script'] = $script;
@@ -344,4 +285,79 @@ function callblast_get_recordings() {
   }
 
   return $recordings;
+}
+
+/**
+ * @param $node
+ *  object, callblast node (this is the callblast being sent)
+ * 
+ * @return $vars
+ *  array, variables to be passed to voip script when the script is loaded
+ *  Specifically, URLs of messages to be played.
+ */
+function _callblast_message_vars($node) {
+  // URL to audio message, to be passed to VoipScript when script loads
+  $url_tmp = $node->field_callblast_audio_file[0]['filepath'];
+  $message_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+
+  // call forwarding number
+  $forward_to_number = $node->field_callblast_call_forward[0]['value']; 
+
+  // options
+  $url_tmp = $node->field_callblast_audio_options[0]['filepath'];
+  $options_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+
+  // message one
+  $url_tmp = $node->field_callblast_audio_one[0]['filepath'];
+  $one_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+
+  // message two
+  $url_tmp = $node->field_callblast_audio_two[0]['filepath'];
+  $two_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+
+  // message three
+  $url_tmp = $node->field_callblast_audio_three[0]['filepath'];
+  $three_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+
+  // message four
+  $url_tmp = $node->field_callblast_audio_four[0]['filepath'];
+  $four_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+
+  // message five
+  $url_tmp = $node->field_callblast_audio_five[0]['filepath'];
+  $five_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+
+  // message six
+  $url_tmp = $node->field_callblast_audio_six[0]['filepath'];
+  $six_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+
+  // message seven
+  $url_tmp = $node->field_callblast_audio_seve[0]['filepath'];
+  $seven_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+
+  // message eight
+  $url_tmp = $node->field_callblast_audio_eigh[0]['filepath'];
+  $eight_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+
+  // message nine
+  $url_tmp = $node->field_callblast_audio_nine[0]['filepath'];
+  $nine_url = ($url_tmp)? $base_url.'/'.drupal_urlencode(check_url($url_tmp)) : NULL;
+
+  // pass $vars as parameters to VoipScript
+  $vars = array(
+    'message_url' => $message_url, 
+    'forward_to_number' => $forward_to_number,
+    'options_url' => $options_url,
+    'one_url' => $one_url,
+    'two_url' => $two_url,
+    'three_url' => $three_url,
+    'four_url' => $four_url,
+    'five_url' => $five_url,
+    'six_url' => $six_url,
+    'seven_url' => $seven_url,
+    'eight_url' => $eight_url,
+    'nine_url' => $nine_url,
+  );
+
+
 }

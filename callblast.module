@@ -243,7 +243,6 @@ function callblast_form_alter(&$form, &$form_state, $form_id){
       $form['field_callblast_end']['#access'] = FALSE;
     }
     // TODO Temp. CFK. Hide file upload fields. Only use recorded messages.
-    dsm($form);
     foreach($form as $key => $value) {
       if (substr($key, 0, 21) == 'field_callblast_audio') {
         $form[$key]['#type'] = 'hidden';
