@@ -51,7 +51,7 @@ function callblast_menu() {
     'title' => 'Record Call Blast Message',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('callblast_record_form'),
-    'access arguments' => array('record callblast message'),
+    'access arguments' => array('administer callblast'),
     'file' => 'includes/callblast.record.inc',
   );
 
@@ -87,7 +87,7 @@ function callblast_menu() {
  * Implementation of hook_perm().
  */
 function callblast_perm() {
-  return array('send now');
+  return array('administer callblast');
 }
 
 /**
