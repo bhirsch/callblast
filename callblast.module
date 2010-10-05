@@ -16,7 +16,7 @@ include_once('includes/callblast.script.inc');
  */
 function callblast_help($path, $arg) {
   if ($path == 'admin/help#callblast') {
-    $txt = t('This module creates provides voip '
+    $txt = t('This module provides voip '
             .'call blast functionality. ');
     return $txt;
   }
@@ -28,12 +28,20 @@ function callblast_help($path, $arg) {
 function callblast_menu() {
   $items = array();
 
+  // Instructions page
+  $items['callblast/instructions'] = array(
+    'title' => 'Call Blast Instructions',
+    'page callback' => 'callblast_instructions_page',
+    'access arguments' => array('administer callblast'),
+    'file' => 'includes/callblast.instructions.inc',
+  );  
+
   // Send callblast now 
   $items['callblast/send/%node'] = array(
     'title' => 'Call Blast: Send',
     'page callback' => 'callblast_send',
     'page arguments' => array(2),
-    'access arguments' => array('send now'),
+    'access arguments' => array('administer callblast'),
     'type' => MENU_CALLBACK,
     'file' => 'includes/callblast.inc',
   );
@@ -51,10 +59,9 @@ function callblast_menu() {
   $items['callblast/recordings'] = array(
     'title' => 'Call Blast Recordings',
     'page callback' => 'callblast_recordings_page',
-    'access arguments' => array('access recordings'),
+    'access arguments' => array('administer callblast'),
     'file' => 'includes/callblast.recordings.inc',
   );  
-
   
   // Call back for auto-complete on node/add and node/edit form
   $items['callblast/list/autocomplete'] = array(
