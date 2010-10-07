@@ -195,7 +195,7 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
 
       $script->addLabel('start');
       $script->addSay("Please record your message after the beep.  When done, press the pound key.");
-      $timeout = 5;
+      $timeout = 3600; // max recording time 1 hour (Twilio will end after 5 second pause if user doesn't end recording).
       $end_key = '#';
       $max_length = 20;
       $script->addRecord($timeout, $end_key, $max_length);

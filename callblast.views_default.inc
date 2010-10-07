@@ -300,7 +300,7 @@ function callblast_views_default_views() {
       'relationship' => 'none',
     ),
     'button_pressed' => array(
-      'label' => 'Button Pressed',
+      'label' => 'Buttons Pressed',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
