@@ -48,9 +48,9 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
       // If user presses a button during the main message, handle the options
       $script->addGotoIf('process_options', "^%input_digits != '" . VoipScript::NO_INPUT . "'");
       // If no options message provided, hangup
-      $script->addGotoIf('end_call', "^!'{$vars['options_url']}'");
+      $script->addGotoIf('hang_up', "^!'{$vars['options_url']}'");
       // If the call has been answered by a machine, skip the options and hangup
-      $script->addGotoIf('end_call', "^%dial_status == '" . VOIPCALL_ANSWERED_MACHINE . "'");
+      $script->addGotoIf('hang_up', "^%dial_status == '" . VOIPCALL_ANSWERED_MACHINE . "'");
 
       // play options
       $script->addLabel('options');
@@ -67,7 +67,7 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
       // * replay previous message 
       $script->addGotoIf('start', "^%input_digits == '*'");
       // #, end call
-      $script->addGotoIf('end_call', "^%input_digits == '#'");
+      $script->addGotoIf('hang_up', "^%input_digits == '#'");
       // 0, go to call forwarding
       $script->addGotoIf('forward', "^(%input_digits == '0') && '{$vars['forward_to_number']}'");
       // go to one 
@@ -151,14 +151,28 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
       // end call
       $script->addGoto('end_call');
 
-      // end call (hang up)
+      // end call 
       $script->addLabel('end_call');
-      // Before call ends, propt user to optionally return to main menu, or connect to operator.
-//      $script->addGotoIf('pre_end_default', "^!'{$vars['options_url']}'");
-      $script->addPlay($vars['pre_end']);
-//TODO handle user input here * 0 #
-      // If no voice prompt is provided, play default message.
-//      $txt = t('To return to the main menu press *. To end this call press #. To speak with an operator press 0.');
+      // If no pre-end message provided, hang up
+      $script->addGotoIf('hang_up', "^!'{$vars['pre_end']}'");
+      // play pre_end message and get input
+      $text = ''; 
+      $url = $vars['pre_end'];
+      $timeout = 1;
+      $end_key = '';
+      $num_digits = 1;
+      $script->addGetInput($text, $url, $timeout, $end_key, $num_digits);
+      // If user presses 0, go to call forwarding
+      $script->addGotoIf('forward', "^(%input_digits == '0') && '{$vars['forward_to_number']}'");
+      // If user presses * replay previous message 
+      $script->addGotoIf('options', "^%input_digits == '*'");
+      // If user presses #, hang up
+      $script->addGotoIf('hang_up', "^%input_digits == '#'");
+      // hang up 
+      $script->addHangup();    
+
+      // hang up 
+      $script->addLabel('hang_up');
       $script->addHangup();    
     
     break;
