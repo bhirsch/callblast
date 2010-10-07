@@ -153,6 +153,12 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
 
       // end call (hang up)
       $script->addLabel('end_call');
+      // Before call ends, propt user to optionally return to main menu, or connect to operator.
+//      $script->addGotoIf('pre_end_default', "^!'{$vars['options_url']}'");
+      $script->addPlay($vars['pre_end']);
+//TODO handle user input here * 0 #
+      // If no voice prompt is provided, play default message.
+//      $txt = t('To return to the main menu press *. To end this call press #. To speak with an operator press 0.');
       $script->addHangup();    
     
     break;

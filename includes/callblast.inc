@@ -306,6 +306,11 @@ function _callblast_message_vars($node) {
   $recording = $node->field_callblast_recording_ops[0]['value'];
   $options_url = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
 
+  // pre-end
+  $upload = $node->field_callblast_upload_preend[0]['filepath']; // todo this field doesn't exist yet
+  $recording = $node->field_callblast_recording_preend[0]['value'];
+  $pre_end = ($upload)? $base_url.'/'.drupal_urlencode(check_url($upload)) : $recording; 
+
   $message_url = array();
   // main message
   $upload = $node->field_callblast_upload0[0]['filepath']; 
@@ -355,6 +360,8 @@ function _callblast_message_vars($node) {
     'forward_to_number' => $forward_to_number,
     // options
     'options_url' => $options_url,
+    // pre end
+    'pre_end' => $pre_end,
     // button 1
     'one_url' => $message_url[1],
     // button 2
