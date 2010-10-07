@@ -231,7 +231,7 @@ function callblast_form_alter(&$form, &$form_state, $form_id){
     $form['buttons']['send'] = array(
       '#type' => 'submit',
       '#value' => t('Send Now'),
-      '#access' => user_access('send now'),
+      '#access' => user_access('administer callblast'),
       '#submit' => array('node_form_submit', '_callblast_send_now'),
       '#weight' => 7,
     );
