@@ -288,6 +288,24 @@ function callblast_get_recordings() {
 }
 
 /**
+ * @param $nid
+ *  integer, voicall node id
+ * 
+ * @return
+ *  array, input digits in the order they were pushed by a listener during a call blast.
+ */
+function callblast_get_input($nid) {
+  $results = db_query("SELECT input_digits FROM {callblast_input} "
+                     ."WHERE voipcall_nid = %d "
+                     ."ORDER BY input_id ASC ", $nid );
+  $input = array();
+  while ($row = db_fetch_object($results)) {
+    $input[] = $row->input_digits;
+  } 
+  return $input;
+}
+
+/**
  * @param $node
  *  object, callblast node (this is the callblast being sent)
  * 

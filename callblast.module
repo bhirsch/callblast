@@ -309,6 +309,26 @@ function callblast_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 function callblast_cron() {
   // Run scheduled call blasts.
   callblast_run();
+  // Process input
+  callblast_process_input();
+}
+
+/**
+ * Match call_ids in callblast_input table
+ * to correspoinding voipcall nids.
+ */
+function callblast_process_input() {
+  // Get a list of unprocessed calls (where voipcall_nid = 0)
+  $results = db_query("SELECT DISTINCT call_id FROM {callblast_input} WHERE voipcall_nid = 0 ");
+  $call_ids = array();
+  while ($row = db_fetch_object($results)) {
+    $call_ids[] = $row->call_id;
+  }
+  // Look up corresponding voipcall nid. Save in callblast_input table.
+  foreach ($call_ids as $call_id) {
+    $nid = db_result(db_query("SELECT nid FROM {content_type_voipcall} WHERE field_voipcall_call_id_value = '$call_id' "));
+    db_query("UPDATE {callblast_input} SET voipcall_nid = %d WHERE call_id = '$call_id' AND voipcall_nid = 0 ", $nid);
+  }
 }
 
 //==========================================//

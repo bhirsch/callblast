@@ -63,6 +63,9 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
 
       // process options
       $script->addLabel('process_options');
+      // save input
+      // note: callblast_input variable isn't used. we just want to call _callblast_input().
+      $script->addSet('callblast_input', '^_callblast_input(%input_digits, %call_id)');
       // Go to user's selected option.
       // * replay previous message 
       $script->addGotoIf('start', "^%input_digits == '*'");
@@ -106,6 +109,10 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
       // option/message two 
       $script->addLabel('two');
       $script->addPlay($vars['two_url']);
+//TODO
+// SAVE INPUT HERE
+//$script->setVar('example', '^callblast_function_name(%input_digits, %call_id)');
+//$script->setVar('example', '^callblast_function_name(2, %call_id)');
       // end call
       $script->addGoto('end_call');
 
@@ -248,10 +255,39 @@ function _callblast_record_callback($call_id, $recording_url, $recording_duratio
 
  // Log call blast with watchdog
   $type = 'call blast';
-  $message = t("New message recorded. Call_id: $call_id, recording_url: $recording_url, recording_duration: $recording_duration, name: $name, number: $number, uid: $uid");
+  $message = t("New message recorded. Call_id: $call_id, recording_url: $recording_url, "
+              ."recording_duration: $recording_duration, name: $name, number: $number, uid: $uid");
   $severity = WATCHDOG_NOTICE;
   watchdog($type, $message);
 
   return 'Thank you.';
 }
 
+/**
+ * Callback for the voip script callblast_message
+ * to record user input.
+ * 
+ * @param $input_digits
+ *  integer, button pressed
+ * 
+ * @param $call_id
+ *  string, unique call id (can be used to match call to voipcall node)
+ * 
+ * @return
+ *  boolean
+ */
+function _callblast_input($input_digits, $call_id) {
+  // save user input to input table
+  db_query("INSERT INTO {callblast_input} (call_id, input_digits) " 
+          ."VALUES ('$call_id', '$input_digits') ");
+
+ // Log input from call blast with watchdog
+  $type = 'call blast';
+  $message = t("call_id: $call_id, input_digits: $input_digits");
+  $severity = WATCHDOG_NOTICE;
+  watchdog($type, $message);
+  
+  if ($input_digits && $call_id) {
+    return TRUE;
+  }
+}

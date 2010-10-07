@@ -115,6 +115,43 @@ function callblast_schema() {
     //'primary key' => array('voipcall_nid'),
     'primary key' => array('call_id'),
   );
+  
+  /**
+   * callblast_input table
+   * 
+   * This table keeps track of user input  
+   * over the phone, responding to callblast options.
+   */
+  $schema['callblast_input'] = array(
+    'fields' => array(
+      'input_id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'voipcall_nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'default' => 0,
+        'not null' => TRUE,
+      ),
+      'call_id' => array(
+        'type' => 'varchar',  // todo character v. varchar for primary key? 
+        'length' => 255,      // todo how long can these unique ids be? 
+        'not null' => TRUE, 
+        'default' => ''
+      ),
+      // uid of user who recorded the recording
+      'input_digits' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'default' => 0,
+        'not null' => TRUE,
+      ),
+    //'primary key' => array('voipcall_nid'),
+    ),
+    'primary key' => array('input_id'),
+  );
 
   return $schema;
 }
