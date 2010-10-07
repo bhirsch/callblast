@@ -170,7 +170,8 @@ function callblast_run() {
   $sql = "SELECT n.nid, n.vid " 
         ."FROM {node} n " 
         ."JOIN {content_type_callblast} cb ON n.nid = cb.nid "
-        ."WHERE field_blast_sent_value = 0 ";
+        ."WHERE field_blast_sent_value = 0 "
+        ."OR ISNULL(field_blast_sent_value) ";
   $result = db_query($sql);
 
   // @todo these should be added to a queue. Lots of big lists could get messy.
@@ -191,6 +192,7 @@ function callblast_run() {
       callblast_send($node);
     } // end if ($start_time <= $now)
   } // end while
+  return TRUE;
 }
 
 /**

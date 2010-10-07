@@ -308,7 +308,7 @@ function callblast_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
  */
 function callblast_cron() {
   // Run scheduled call blasts.
-  callblast_run();
+  $x = callblast_run();
   // Process input
   callblast_process_input();
 }
