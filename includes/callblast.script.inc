@@ -35,6 +35,16 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
   switch ($script_name) {
     case 'callblast_message':
       $script = new VoipScript($script_name);
+      // If the call has been answered by a machine and we have an alternate 
+      // message for answering machines, play it.
+      $script->addGotoIf('start', "^%dial_status != '" . VOIPCALL_ANSWERED_MACHINE . "'"); 
+      $machine_message = $vars['machine_message'];
+      $is_machine = ($machine_message) ? TRUE : FALSE;  
+      $script->addGotoIf('start', "^!$is_machine");
+      $script->addPlay($machine_message);
+      $script->addHangup();
+
+      // play options
       // start here
       $script->addLabel('start');
       // play main message      
@@ -109,10 +119,6 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
       // option/message two 
       $script->addLabel('two');
       $script->addPlay($vars['two_url']);
-//TODO
-// SAVE INPUT HERE
-//$script->setVar('example', '^callblast_function_name(%input_digits, %call_id)');
-//$script->setVar('example', '^callblast_function_name(2, %call_id)');
       // end call
       $script->addGoto('end_call');
 
