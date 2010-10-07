@@ -380,7 +380,7 @@ function _callblast_message_vars($node) {
     // main message
     'message_url' => $message_url[0], 
     // answering machine message
-    'machine_message' => $machind_message,
+    'machine_message' => $machine_message,
     // forwarding number (when user hits 0)
     'forward_to_number' => $forward_to_number,
     // options
