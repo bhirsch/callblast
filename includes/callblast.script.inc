@@ -39,7 +39,7 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
       // message for answering machines, play it.
       $script->addGotoIf('start', "^%dial_status != '" . VOIPCALL_ANSWERED_MACHINE . "'"); 
       $machine_message = $vars['machine_message'];
-      $is_machine = ($machine_message) ? TRUE : FALSE;  
+      $is_machine = ($machine_message) ? 'TRUE' : 'FALSE';  
       $script->addGotoIf('start', "^!$is_machine");
       $script->addPlay($machine_message);
       $script->addHangup();
