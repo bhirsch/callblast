@@ -22,7 +22,7 @@ function call_blast_menus_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '-45',
+    'weight' => '-44',
   );
   // Exported menu link: features:callblast/instructions
   $menu_links['features:callblast/instructions'] = array(
@@ -78,6 +78,24 @@ function call_blast_menus_menu_default_menu_links() {
     'expanded' => '0',
     'weight' => '-48',
   );
+  // Exported menu link: features:calllists
+  $menu_links['features:calllists'] = array(
+    'menu_name' => 'features',
+    'link_path' => 'calllists',
+    'router_path' => 'calllists',
+    'link_title' => 'Call Lists',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '-46',
+  );
   // Exported menu link: features:callstatus
   $menu_links['features:callstatus'] = array(
     'menu_name' => 'features',
@@ -94,7 +112,7 @@ function call_blast_menus_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '0',
+    'weight' => '-43',
   );
   // Exported menu link: features:node/add/callblast
   $menu_links['features:node/add/callblast'] = array(
@@ -112,7 +130,7 @@ function call_blast_menus_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '-46',
+    'weight' => '-45',
   );
   // Exported menu link: features:node/add/calllist
   $menu_links['features:node/add/calllist'] = array(
@@ -135,6 +153,7 @@ function call_blast_menus_menu_default_menu_links() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Call Blasts');
+  t('Call Lists');
   t('Call Status');
   t('Create Call List');
   t('Create a Call Blast');
