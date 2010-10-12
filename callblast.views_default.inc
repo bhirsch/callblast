@@ -890,6 +890,7 @@ function callblast_views_default_views() {
     'type' => 'none',
   ));
   $handler->override_option('title', 'Call Blast');
+  $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');
   $handler->override_option('style_options', array(
     'grouping' => '',
