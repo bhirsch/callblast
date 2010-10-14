@@ -232,6 +232,7 @@ function callblast_send($node) {
   $node->field_blast_sent[0]['value'] = 1;
   // Save callblast end time.
   // (What time the callblast was completed.)
+// TODO QUEUE: Note this end time is missleading. This is the end of cron kicking off the callblast. But the calls haven't been finished yet. They've just all been sent to voip. E.g. see http://whatsupserver.media.mit.edu/cfk/node/447, this looks like the call blast started and ended at 11:38am, but the blast actually sent over a period of 3-6 minutes.
   $node->field_callblast_end[0]['value'] = time();
   node_save($node);
 
