@@ -150,6 +150,7 @@ function callblast_save_voipcalls($list, $node) {
       // store callblast_nid / voipcall_nid pairs in  callblast_call table
       $callblast_call->voipcall_nid = db_last_insert_id('node', 'nid');
       $callblast_call->callblast_nid = $node->nid;
+// TODO QUEUE callblast_nid, voipcall_nid get inserted into  callblast_call
       drupal_write_record('callblast_call', $callblast_call);
     } else {
       // no destination number
@@ -216,6 +217,7 @@ function callblast_send($node) {
   // voip.module gets the phone numbers from the voipcall node
   $callblast_nid = $node->nid;
   $callblast_vid = $node->vid;
+// TODO QUEUE: Add limit to x records (default to 10, let user set this in GUI)
   $sql = 'SELECT voipcall_nid FROM {callblast_call} WHERE callblast_nid = %d'; 
   $result2 = db_query($sql, $callblast_nid);
 
@@ -225,6 +227,8 @@ function callblast_send($node) {
   }
   
   // Record callblast as sent.
+// TODO QUEUE: Record callblast as "sending" 
+// TODO QUEUE: Also, add a kill switch.
   $node->field_blast_sent[0]['value'] = 1;
   // Save callblast end time.
   // (What time the callblast was completed.)
