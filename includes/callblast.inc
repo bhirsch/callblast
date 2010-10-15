@@ -223,7 +223,7 @@ function callblast_send($node) {
 
   // place phone calls to each number on the list, one-by-one
   while ($voipcall_nid = db_result($result2)) { 
-    _callblast_call($voipcall_nid);
+    _callblast_call($callblast_nid, $voipcall_nid);
   }
   
   // Record callblast as sent.
@@ -260,15 +260,20 @@ function _callblast_send_now($form, $form_state) {
  * that is currently being called by callblast_send().
  * 
  * @param
+ *  $callblast_nid, integer, node id of the callblast sending voipcall
  *  $voipcall_nid, integer, node id of the voipcall 
  *  node to be sent.
  */
-function _callblast_call($voipcall_nid) {
-    $voipcall_node = node_load($voipcall_nid);    
-
-    // place outgoing call
-//TODO QUEUE 2. insert callblast_nid, voipcall_nid, and status ('calling') into  callblast_call. 
-    voip_dial($voipcall_node);
+function _callblast_call($callblast_nid, $voipcall_nid) {
+  $voipcall_node = node_load($voipcall_nid);    
+  // set call status to 'calling'
+  $callblast_call->voipcall_nid = $voipcall_nid;
+  $callblast_call->callblast_nid = $callblast_nid; 
+  $callblast_call->status = 'calling';
+  $callblast_call->update = TRUE; 
+  callblast_set_call_status($callblast_call);
+  // place outgoing call
+  voip_dial($voipcall_node);
 }
 
 /**
