@@ -146,9 +146,9 @@ function callblast_save_voipcalls($list, $node) {
       $details['dest_number'] = $list[$i]['destination'];
       $details['dest_name'] = $list[$i]['name'];
       // save voipcall node
-      voipcall_save($details);
+      $voipcall_node = voipcall_save($details);
       // store callblast_nid / voipcall_nid pairs in  callblast_call table
-      $callblast_call->voipcall_nid = db_last_insert_id('node', 'nid');
+      $callblast_call->voipcall_nid = $voipcall_node->nid; 
       $callblast_call->callblast_nid = $node->nid;
 // TODO PREP QUEUE 0. update callblast.install, add status column to callblast_call 
 // TODO QUEUE 0. insert callblast_nid, voipcall_nid, and status ('not called') into  callblast_call. 
@@ -226,6 +226,7 @@ function callblast_send($node) {
 
   // place phone calls to each number on the list, one-by-one
   while ($voipcall_nid = db_result($result2)) { 
+dsm($voipcall_nid, 'one');
     _callblast_call($voipcall_nid);
   }
   
@@ -266,7 +267,9 @@ function _callblast_send_now($form, $form_state) {
  *  node to be sent.
  */
 function _callblast_call($voipcall_nid) {
+dsm($voipcall_nid, 'two a');
     $voipcall_node = node_load($voipcall_nid);    
+dsm($voipcall_node, 'two');
 
     // place outgoing call
 //TODO QUEUE 2. insert callblast_nid, voipcall_nid, and status ('calling') into  callblast_call. 
