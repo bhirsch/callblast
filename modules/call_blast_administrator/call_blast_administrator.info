@@ -1,8 +1,0 @@
-core = "6.x"
-dependencies[] = "features"
-description = "Call Blast Administrator role and related permissions"
-features[user_role][] = "call blast administrator"
-name = "Call Blast Administrator"
-package = "Features"
-project = "call_blast_administrator"
-version = "6.x-0.1"
