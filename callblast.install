@@ -187,7 +187,6 @@ function callblast_update_6002() {
     'not null' => TRUE, 
     'default' => ''
   );
-  //db_add_column(&$ret, $table, $column, $type, $attributes = array());
   db_add_field(&$ret, $table, $field, $spec, $new_keys);
 }
 
