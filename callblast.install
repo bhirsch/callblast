@@ -35,17 +35,26 @@ function callblast_schema() {
    */
   $schema['callblast_call'] = array(
     'fields' => array(
+      // the call blast being sent
       'callblast_nid' => array(
         'type' => 'int',
         'unsigned' => TRUE,
         'default' => 0,
         'not null' => TRUE,
       ),
+      // each individual voipcall that's part of the call blast
       'voipcall_nid' => array(
         'type' => 'int',
         'unsigned' => TRUE,
         'default' => 0,
         'not null' => TRUE,
+      ),
+      // status (not called, calling, completed, canceled)
+      'status' => array(
+        'type' => 'varchar', 
+        'length' => 20, 
+        'not null' => TRUE, 
+        'default' => ''
       ),
     ), 
     'primary key' => array('callblast_nid', 'voipcall_nid'),
@@ -164,3 +173,21 @@ function callblast_schema() {
 function callblast_update_6001() {
   db_query("UPDATE {system} SET weight = 1 WHERE name = 'callblast' OR name = 'calllist' ");
 }
+
+/**
+ * Add status collumn to callblast_call table.
+ */
+function callblast_update_6002() {
+  $ret = array();
+  $table = 'callblast_call';
+  $field = 'status';
+  $spec = array(
+    'type' => 'varchar', 
+    'length' => 20, 
+    'not null' => TRUE, 
+    'default' => ''
+  );
+  //db_add_column(&$ret, $table, $column, $type, $attributes = array());
+  db_add_field(&$ret, $table, $field, $spec, $new_keys);
+}
+

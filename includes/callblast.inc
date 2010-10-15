@@ -150,7 +150,6 @@ function callblast_save_voipcalls($list, $node) {
       // store callblast_nid / voipcall_nid pairs in  callblast_call table
       $callblast_call->voipcall_nid = $voipcall_node->nid; 
       $callblast_call->callblast_nid = $node->nid;
-// TODO PREP QUEUE 0. update callblast.install, add status column to callblast_call 
 // TODO QUEUE 0. insert callblast_nid, voipcall_nid, and status ('not called') into  callblast_call. 
 //// callblast_status($voipcall_nid, 'not called')  
       drupal_write_record('callblast_call', $callblast_call);
