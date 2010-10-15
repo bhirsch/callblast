@@ -147,12 +147,11 @@ function callblast_save_voipcalls($list, $node) {
       $details['dest_name'] = $list[$i]['name'];
       // save voipcall node
       $voipcall_node = voipcall_save($details);
-      // store callblast_nid / voipcall_nid pairs in  callblast_call table
+      // store callblast_nid,  voipcall_nid pairs and call status in callblast_call table
       $callblast_call->voipcall_nid = $voipcall_node->nid; 
       $callblast_call->callblast_nid = $node->nid;
-// TODO QUEUE 0. insert callblast_nid, voipcall_nid, and status ('not called') into  callblast_call. 
-//// callblast_status($voipcall_nid, 'not called')  
-      drupal_write_record('callblast_call', $callblast_call);
+      $callblast_call->status = 'not called';
+      callblast_set_call_status($callblast_call); 
     } else {
       // no destination number
       // TODO Add validation/error handling here. 
@@ -419,4 +418,31 @@ function _callblast_message_vars($node) {
   );
 
   return $vars;
+}
+
+/**
+ * Set call status for callblast calls in callblast_call table.
+ * 
+ * @param 
+ * $callblast_call, object
+ * - $callblast_call->voipcall_nid, int, the nid of the voipcall being added/updated
+ * - $callblast_call->callblast_nid, int, the nid of the callbalst being sent
+ * - $callblast_call->status, string, 'queued', 'calling', 'completed', 'canceled'
+ * - $callblast_call->update, boolean
+ * 
+ * Call status descriptions: 
+ * - 'queued' - callblast is running, this call is in the queue to get sent
+ * - 'calling' - call has been sent to voip server, too late to cancel it
+ * - 'completed' - call went out and has been completed
+ * - 'canceled' - call was queued then canceled before it went out
+ */ 
+function callblast_set_call_status($callblast_call) {
+  if (!$callblast_call->update) {
+    // New voipcall
+    drupal_write_record('callblast_call', $callblast_call);
+  } else if ($callblast_call->update) {
+    // Update existing voipcall. Specify primary keys.
+    $update = array('voipcall_nid', 'callblast_nid'); 
+    drupal_write_record('callblast_call', $callblast_call, $update);
+  }
 }
