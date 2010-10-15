@@ -226,7 +226,6 @@ function callblast_send($node) {
 
   // place phone calls to each number on the list, one-by-one
   while ($voipcall_nid = db_result($result2)) { 
-dsm($voipcall_nid, 'one');
     _callblast_call($voipcall_nid);
   }
   
@@ -236,7 +235,8 @@ dsm($voipcall_nid, 'one');
   $node->field_blast_sent[0]['value'] = 1;
   // Save callblast end time.
   // (What time the callblast was completed.)
-// TODO QUEUE: Note this end time is missleading. This is the end of cron kicking off the callblast. But the calls haven't been finished yet. They've just all been sent to voip. E.g. see http://whatsupserver.media.mit.edu/cfk/node/447, this looks like the call blast started and ended at 11:38am, but the blast actually sent over a period of 3-6 minutes.
+// TODO PREP QUEUE: Replace boolean callblast status field with values like 'sending', 'not sent', 'complete'. (maybe make it an integer field?)
+// TODO QUEUE (move this to QUEUE 5): Note this end time is missleading. This is the end of cron kicking off the callblast. But the calls haven't been finished yet. They've just all been sent to voip. E.g. see http://whatsupserver.media.mit.edu/cfk/node/447, this looks like the call blast started and ended at 11:38am, but the blast actually sent over a period of 3-6 minutes.
   $node->field_callblast_end[0]['value'] = time();
   node_save($node);
 
@@ -267,15 +267,11 @@ function _callblast_send_now($form, $form_state) {
  *  node to be sent.
  */
 function _callblast_call($voipcall_nid) {
-dsm($voipcall_nid, 'two a');
     $voipcall_node = node_load($voipcall_nid);    
-dsm($voipcall_node, 'two');
 
     // place outgoing call
 //TODO QUEUE 2. insert callblast_nid, voipcall_nid, and status ('calling') into  callblast_call. 
     voip_dial($voipcall_node);
-//TODO WHERE DOES STEP 3 GO? 
-//TODO QUEUE 3. insert callblast_nid, voipcall_nid, and status ('complete') into  callblast_call. 
 }
 
 /**
