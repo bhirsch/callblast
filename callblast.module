@@ -310,14 +310,28 @@ function callblast_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     }
   }
 
-  // If this is a voipcall being created (sent) by a callblast, check queue.
-  // If the queue is not full, kick off the next call.
-//TODO Add test to see if this voipcall is part of a callblast.
+  // If this is 
+  // (a) a voipcall 
+  // (b) sent by a callblast
+  // (c) being updated as 'complete', 
+  // (d) set the status in the callblast_call table to 'complete' 
+  // (e) and if the queue is not full, kick off the next call.
+  //
+  // (a)
   $is_voipcall = $node->type == 'voipcall';
+  // (b)
+  $callblast_nid = callblast_get_callblast_nid($node->nid);
+  $is_callblast_call = ($callblast_nid) ? TRUE : FALSE;
+  // (c)
   $call_completed = ($node->field_voipcall_status[0]['value'] == 'completed') ? TRUE : FALSE; 
-// TODO $is_callblast_call = callblast_something($node->nid);
-  if ($is_voipcall && $op == 'update' && $call_completed) {
-//TODO QUEUE 3. insert callblast_nid, voipcall_nid, and status ('completed') into  callblast_call. 
+  if ($is_voipcall && $is_callblast_call && $op == 'update' && $call_completed) {
+    $callblast_call->voipcall_nid = $node->nid;
+    $callblast_call->callblast_nid = $callblast_nid;
+    $callblast_call->status = 'completed';
+    $callblast_call->update = TRUE;
+    // (d)
+    callblast_set_call_status($callblast_call);
+    // (e)
 //TODO QUEUE 4. kick off the next voipcall in the queue.  (find calls from the current callblast marked 'not called')
 //TODO QUEUE 5. When there are no more calls in the queue, set callblast to "complete", set end time for callblast here.  
 //TODO QUEUE Delete this watchdog when done with it: 

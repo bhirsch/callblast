@@ -445,3 +445,20 @@ function callblast_set_call_status($callblast_call) {
     drupal_write_record('callblast_call', $callblast_call, $update);
   }
 }
+
+/**
+ * @param $voipcall_nid
+ *  int, node id of voipcall
+ * 
+ * @return $callblast_nid
+ *  int, node id of callblast this voipcall belongs to
+ */
+function callblast_get_callblast_nid($voipcall_nid) {
+  $sql = "SELECT callblast_nid FROM {callblast_call} WHERE voipcall_nid = %d ";
+  $callblast_nid = db_result(db_query($sql, $voipcall_nid));
+  if ($callblast_nid) {
+    return $callblast_nid; 
+  } else {
+    return FALSE; 
+  }
+}
