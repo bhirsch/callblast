@@ -150,7 +150,9 @@ function callblast_save_voipcalls($list, $node) {
       // store callblast_nid / voipcall_nid pairs in  callblast_call table
       $callblast_call->voipcall_nid = db_last_insert_id('node', 'nid');
       $callblast_call->callblast_nid = $node->nid;
-// TODO QUEUE callblast_nid, voipcall_nid get inserted into  callblast_call
+// TODO PREP QUEUE 0. update callblast.install, add status column to callblast_call 
+// TODO QUEUE 0. insert callblast_nid, voipcall_nid, and status ('not called') into  callblast_call. 
+//// callblast_status($voipcall_nid, 'not called')  
       drupal_write_record('callblast_call', $callblast_call);
     } else {
       // no destination number
@@ -217,7 +219,8 @@ function callblast_send($node) {
   // voip.module gets the phone numbers from the voipcall node
   $callblast_nid = $node->nid;
   $callblast_vid = $node->vid;
-// TODO QUEUE: Add limit to x records (default to 10, let user set this in GUI)
+// TODO PREP QUEUE 1. Expose $limit to admin/settings/callblast 
+// TODO QUEUE 1. Add limit to x records (default to 10, let user set this in GUI)
   $sql = 'SELECT voipcall_nid FROM {callblast_call} WHERE callblast_nid = %d'; 
   $result2 = db_query($sql, $callblast_nid);
 
@@ -266,7 +269,10 @@ function _callblast_call($voipcall_nid) {
     $voipcall_node = node_load($voipcall_nid);    
 
     // place outgoing call
+//TODO QUEUE 2. insert callblast_nid, voipcall_nid, and status ('calling') into  callblast_call. 
     voip_dial($voipcall_node);
+//TODO WHERE DOES STEP 3 GO? 
+//TODO QUEUE 3. insert callblast_nid, voipcall_nid, and status ('complete') into  callblast_call. 
 }
 
 /**

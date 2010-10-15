@@ -299,6 +299,18 @@ function callblast_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       $node->field_callblast_calllist[0]['value'] = $list_name;
     }
   }
+
+  // If this is a voipcall being created (sent) by a callblast, check queue.
+  // If the queue is not full, kick off the next call.
+  if ($node->type == 'callblast' || $node->type == 'voipcall') {
+    // TEST
+    // Log call blast with watchdog
+    $type = 'callblast_nodeapi';
+    $print_r = print_r($node, TRUE);
+    $message = t("nid: $node->nid, type: $node->type, op: $op, print_r: $print_r");
+    $severity = WATCHDOG_NOTICE;
+    watchdog($type, $message);
+  }
 }
 
 /**
