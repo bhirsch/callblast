@@ -332,9 +332,7 @@ function callblast_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     // (d)
     callblast_set_call_status($callblast_call);
     // (e)
-//TODO QUEUE 4. kick off the next voipcall in the queue.  (find calls from the current callblast marked 'not called')
-    callblast_send_next_call();
-//TODO QUEUE 5. When there are no more calls in the queue, set callblast to "complete", set end time for callblast here.  
+    callblast_send_next_call($callblast_nid);
   }
 }
 

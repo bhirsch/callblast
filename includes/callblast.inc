@@ -150,7 +150,7 @@ function callblast_save_voipcalls($list, $node) {
       // store callblast_nid,  voipcall_nid pairs and call status in callblast_call table
       $callblast_call->voipcall_nid = $voipcall_node->nid; 
       $callblast_call->callblast_nid = $node->nid;
-      $callblast_call->status = 'not called';
+      $callblast_call->status = 'queued';
       callblast_set_call_status($callblast_call); 
     } else {
       // no destination number
@@ -466,4 +466,30 @@ function callblast_get_callblast_nid($voipcall_nid) {
   } else {
     return FALSE; 
   }
+}
+
+/**
+ * As calls get completed one-by-one, 
+ * check for queued calls and  kick off the next call
+ * one-by-one.
+ * 
+ * @param $callblast_nid
+ *  int, node id of callblast being sent
+ */
+function callblast_send_next_call($callblast_nid) {
+  // Check queue size.
+  $queue_size = variable_get('callblast_queue_size', 10);
+  // Check how many calls are currently being called.
+  $sql = "SELECT COUNT(voipcall_nid) as active_calls FROM {callblast_call} WHERE status = 'calling' ";   
+  $active_calls = db_result(db_query($sql));
+  // Kick off the next call?...
+  if ($queue_size < $active_calls) {
+    // Get queued voipcall_nid.
+    $sql = "SELECT voipcall_nid FROM {callblast_call} WHERE callblast_nid = %d AND status = 'queued' LIMIT 1 ");
+    $voipcall_nid = db_result(db_query($sql, $callblast_nid));
+    // Send the next call.
+    _callblast_call($callblast_nid, $voipcall_nid);
+  }
+
+//TODO QUEUE 5. When there are no more calls in the queue, set callblast to "complete", set end time for callblast here.  
 }
