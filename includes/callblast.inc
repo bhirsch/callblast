@@ -217,10 +217,9 @@ function callblast_send($node) {
   // voip.module gets the phone numbers from the voipcall node
   $callblast_nid = $node->nid;
   $callblast_vid = $node->vid;
-// TODO PREP QUEUE 1. Expose $limit to admin/settings/callblast 
-// TODO QUEUE 1. Add limit to x records (default to 10, let user set this in GUI)
-  $sql = 'SELECT voipcall_nid FROM {callblast_call} WHERE callblast_nid = %d'; 
-  $result2 = db_query($sql, $callblast_nid);
+  $queue_size = variable_get('callblast_queue_size', 10);
+  $sql = 'SELECT voipcall_nid FROM {callblast_call} WHERE callblast_nid = %d LIMIT %d '; 
+  $result2 = db_query($sql, $callblast_nid, $queue_size);
 
   // place phone calls to each number on the list, one-by-one
   while ($voipcall_nid = db_result($result2)) { 
