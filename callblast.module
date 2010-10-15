@@ -28,6 +28,15 @@ function callblast_help($path, $arg) {
 function callblast_menu() {
   $items = array();
 
+  // settings page
+  $items['admin/settings/callblast'] = array(
+    'title' => 'Call Blast Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('callblast_admin_settings'),
+    'access arguments' => array('administer callblast'),
+    'file' => 'includes/callblast.admin.inc',
+  );  
+
   // Instructions page
   $items['callblast/instructions'] = array(
     'title' => 'Call Blast Instructions',
