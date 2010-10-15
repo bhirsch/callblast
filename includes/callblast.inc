@@ -485,7 +485,7 @@ function callblast_send_next_call($callblast_nid) {
   // Kick off the next call?...
   if ($queue_size < $active_calls) {
     // Get queued voipcall_nid.
-    $sql = "SELECT voipcall_nid FROM {callblast_call} WHERE callblast_nid = %d AND status = 'queued' LIMIT 1 ");
+    $sql = "SELECT voipcall_nid FROM {callblast_call} WHERE callblast_nid = %d AND status = 'queued' LIMIT 1 ";
     $voipcall_nid = db_result(db_query($sql, $callblast_nid));
     // Send the next call.
     _callblast_call($callblast_nid, $voipcall_nid);
