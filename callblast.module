@@ -250,13 +250,14 @@ function callblast_form_alter(&$form, &$form_state, $form_id){
     unset($form['buttons']['preview']);
     
     // Usability:
-    // Hide 'blast sent', start time and end time
+    // Hide 'blast sent', start time, end time, field_callblast_status
     // fields for users other than user 1.
     global $user;
     if ($user->uid != 1) {
       $form['field_blast_sent']['#access'] = FALSE;
       $form['field_callblast_start']['#access'] = FALSE;
       $form['field_callblast_end']['#access'] = FALSE;
+      $form['field_callblast_status']['#access'] = FALSE;
     }
     // TODO Temp. CFK. Hide file upload fields. Only use recorded messages.
     foreach($form as $key => $value) {

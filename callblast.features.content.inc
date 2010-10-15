@@ -1055,6 +1055,57 @@ return $a;',
     ),
   );
 
+  // Exported field: field_callblast_status
+  $fields['callblast-field_callblast_status'] = array(
+    'field_name' => 'field_callblast_status',
+    'type_name' => 'callblast',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => 'scheduled
+sending
+paused
+canceled
+completed',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Call Blast Status',
+      'weight' => '80',
+      'description' => '',
+      'type' => 'optionwidgets_select',
+      'module' => 'optionwidgets',
+    ),
+  );
+
   // Exported field: field_callblast_upload0
   $fields['callblast-field_callblast_upload0'] = array(
     'field_name' => 'field_callblast_upload0',
@@ -1583,6 +1634,7 @@ return $a;',
   t('Button 8 message recording');
   t('Button 9 message');
   t('Button 9 message recording');
+  t('Call Blast Status');
   t('Call List');
   t('End Time');
   t('Forward Call To');
