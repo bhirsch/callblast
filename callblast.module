@@ -303,7 +303,10 @@ function callblast_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   // If this is a voipcall being created (sent) by a callblast, check queue.
   // If the queue is not full, kick off the next call.
 //TODO Add test to see if this voipcall is part of a callblast.
-  if ($node->type == 'voipcall' && $op == 'update' && $node->field_voipcall_status[0]['value'] == 'completed') {
+  $is_voipcall = $node->type == 'voipcall';
+  $call_completed = ($node->field_voipcall_status[0]['value'] == 'completed') ? TRUE : FALSE; 
+// TODO $is_callblast_call = callblast_something($node->nid);
+  if ($is_voipcall && $op == 'update' && $call_completed) {
 //TODO QUEUE 3. insert callblast_nid, voipcall_nid, and status ('completed') into  callblast_call. 
 //TODO QUEUE 4. kick off the next voipcall in the queue.  (find calls from the current callblast marked 'not called')
 //TODO QUEUE 5. When there are no more calls in the queue, set callblast to "complete", set end time for callblast here.  
