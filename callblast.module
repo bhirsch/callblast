@@ -313,7 +313,7 @@ function callblast_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   // If this is 
   // (a) a voipcall 
   // (b) sent by a callblast
-  // (c) being updated as 'complete', 
+  // (c) being updated as 'complete' or 'no_answer', 
   // (d) set the status in the callblast_call table to 'complete' 
   // (e) and if the queue is not full, kick off the next call.
   //
@@ -322,17 +322,20 @@ function callblast_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   // (b)
   $callblast_nid = callblast_get_callblast_nid($node->nid);
   $is_callblast_call = ($callblast_nid) ? TRUE : FALSE;
-  // (c)
-  $call_completed = ($node->field_voipcall_status[0]['value'] == 'completed') ? TRUE : FALSE; 
-  if ($is_voipcall && $is_callblast_call && $op == 'update' && $call_completed) {
-    $callblast_call->voipcall_nid = $node->nid;
-    $callblast_call->callblast_nid = $callblast_nid;
-    $callblast_call->status = 'completed';
-    $callblast_call->update = TRUE;
-    // (d)
-    callblast_set_call_status($callblast_call);
-    // (e)
-    callblast_send_next_call($callblast_nid);
+  if ($is_voipcall && $is_callblast_call && $op == 'update') {
+    // (c)
+    $voipcall = (array)$node;
+    $call_completed = voipcall_is_hangup($voipcall);
+    if ($call_completed) {
+      $callblast_call->voipcall_nid = $node->nid;
+      $callblast_call->callblast_nid = $callblast_nid;
+      $callblast_call->status = 'completed';
+      $callblast_call->update = TRUE;
+      // (d)
+      callblast_set_call_status($callblast_call);
+      // (e)
+      callblast_send_next_call($callblast_nid);
+    }
   }
 }
 
