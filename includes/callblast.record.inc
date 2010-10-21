@@ -44,8 +44,8 @@ function callblast_record_form_submit(&$form, &$form_state) {
 //dsm($form_state);
   global $user;
 
-  $name = $form_state['values']['name'];
-  $number = $form_state['values']['number'];
+  $name = check_plain($form_state['values']['name']);
+  $number = check_plain($form_state['values']['number']);
   $vars = array('uid' => $user->uid, 'name' => $name, 'number' => $number);
 
   // Create new voipcall node for the call 
