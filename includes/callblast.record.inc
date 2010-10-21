@@ -47,8 +47,8 @@ function callblast_record_form() {
 function callblast_record_form_submit(&$form, &$form_state) {
   //debug
   $txt = 'function callblast_record_form_submit(&$form, &$form_state) ';
-  $txt .= '@param &$form: '. print_r($form);
-  $txt .= '@param &$form_state: '. print_r($form_state);
+  $txt .= '@param &$form: '. print_r($form, TRUE);
+  $txt .= '@param &$form_state: '. print_r($form_state, TRUE);
   callblast_debug($txt);
 
 //dsm($form_state);

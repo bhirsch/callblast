@@ -120,7 +120,7 @@ function callblast_list_title($value) {
 function callblast_list($node) {
   // debug
   $txt = 'entering callblast_list($node) ';
-  $txt .= '@param $node: '. print_r($node); 
+  $txt .= '@param $node: '. print_r($node, TRUE); 
   callblast_debug($txt);
 
   $list_name = check_plain($node->field_callblast_calllist[0]['value']);
@@ -140,7 +140,7 @@ function callblast_save_voipcalls($list, $node) {
   // debug
   $txt = 'entering callblast_save_voipcalls($list, $node) ';
   $txt .= '@param $list: '. $list; 
-  $txt .= '@param $node: '. print_r($node); 
+  $txt .= '@param $node: '. print_r($node, TRUE); 
   callblast_debug($txt);
 
   global $base_url;
@@ -230,7 +230,7 @@ function callblast_run() {
 function callblast_send($node) {
   // debug
   $txt = 'entering callblast_send($node) ';
-  $txt .= '@param $node: '. print_r($node);
+  $txt .= '@param $node: '. print_r($node, TRUE);
   callblast_debug($txt);
 
   // Save call blast start time.
@@ -280,8 +280,8 @@ function callblast_send($node) {
 function _callblast_send_now($form, $form_state) {
   // debug
   $txt = 'entering _callblast_send_now($form, $form_state) ';
-  $txt .= '@param $form: '. print_r($form);
-  $txt .= '@param $form_state: '. print_r($form_state);
+  $txt .= '@param $form: '. print_r($form, TRUE);
+  $txt .= '@param $form_state: '. print_r($form_state, TRUE);
   callblast_debug($txt);
 
   $node = node_load($form_state['nid']);
@@ -302,8 +302,8 @@ function _callblast_send_now($form, $form_state) {
 function _callblast_call($callblast_nid, $voipcall_nid) {
   // debug
   $txt = 'entering _callblast_call($callblast_nid, $voipcall_nid) ';
-  $txt .= '@param $callblast_nid: '. print_r($callblast_nid);
-  $txt .= '@param $voipcall_nid: '. print_r($voiopcall_nid);
+  $txt .= '@param $callblast_nid: '. print_r($callblast_nid, TRUE);
+  $txt .= '@param $voipcall_nid: '. print_r($voiopcall_nid, TRUE);
   callblast_debug($txt);
 
   $voipcall_node = node_load($voipcall_nid);    
@@ -380,7 +380,7 @@ function callblast_get_input($nid) {
 function _callblast_message_vars($node) {
   // debug
   $txt = 'entering _callblast_message_vars($node) ';
-  $txt .= '@param $node: '. print_r($node);
+  $txt .= '@param $node: '. print_r($node, TRUE);
   callblast_debug($txt);
 
   global $base_url;
@@ -498,7 +498,7 @@ function _callblast_message_vars($node) {
 function callblast_set_call_status($callblast_call) {
   // debug
   $txt = 'entering callblast_set_call_status($callblast_call) ';
-  $txt .= '@param $node: '. print_r($node);
+  $txt .= '@param $node: '. print_r($node, TRUE);
   callblast_debug($txt);
 
   if (!$callblast_call->update) {

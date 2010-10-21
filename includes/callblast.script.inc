@@ -33,7 +33,7 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
   //debug
   $txt = 'entering function callblast_voipscript_load_script($script_name, $vars = NULL) ';
   $txt .= ' @param $script_name: '. $script_name;
-  $txt .= ' @param $vars: '. print_r($vars);
+  $txt .= ' @param $vars: '. print_r($vars, TRUE);
   callblast_debug($txt);
 
   $script = NULL;
