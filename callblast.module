@@ -15,6 +15,12 @@ include_once('includes/callblast.script.inc');
  * Implementation of hook_help(). 
  */
 function callblast_help($path, $arg) {
+  //debug
+  $txt = 'entering function callblast_help($path, $arg) ';
+  $txt .= ' @param $path: '. $path;
+  $txt .= ' @param $arg: '. $arg;
+  callblast_debug($txt);
+
   if ($path == 'admin/help#callblast') {
     $txt = t('This module provides voip '
             .'call blast functionality. ');
@@ -26,6 +32,10 @@ function callblast_help($path, $arg) {
  * Implementation of hook_menu().
  */
 function callblast_menu() {
+  //debug
+  $txt = 'entering function callblast_menu() ';
+  callblast_debug($txt);
+
   $items = array();
 
   // settings page
@@ -96,6 +106,10 @@ function callblast_menu() {
  * Implementation of hook_perm().
  */
 function callblast_perm() {
+  //debug
+  $txt = 'entering callblast_perm()';
+  callblast_debug($txt);
+
   return array('administer callblast');
 }
 
@@ -103,6 +117,13 @@ function callblast_perm() {
  * Implementation of hook_block().
  */
 function callblast_block($op = 'list', $delta = 0, $edit = array()) {
+  //debug
+  $txt = 'entering function callblast_block($op = 'list', $delta = 0, $edit = array()) ';
+  $txt .= '@param $op: '. $op;
+  $txt .= '@param $delta: '. $delta;
+  $txt .= '@param $edit: '. print_r($edit);
+  callblast_debug($txt);  
+
   if ($op == 'list') {
     $blocks[0]['info'] = t('Call Blast Status');
     return $blocks;
@@ -122,6 +143,9 @@ function callblast_block($op = 'list', $delta = 0, $edit = array()) {
  * Implementation of hook_theme().
  */
 function callblast_theme() {
+  //debug 
+  $txt = 'entering function callblast_theme() ';
+  callblast_debug($txt);
   return array(
     'callblast_block' => array(
       'arguments' => array(),
@@ -148,6 +172,11 @@ function callblast_theme() {
  *  array, I think this is the $element being passed by CCK here.
  */
 function theme_callblast_formatter_callblast_list($element) {
+  //debug
+  $txt = 'entering function theme_callblast_formatter_callblast_list($element) ';
+  $txt .= '@param $element: '. $element;
+  callblast_debug($txt);
+
   $output = callblast_list_default($element['#item']['safe']);
   return $output;
 }
@@ -159,6 +188,11 @@ function theme_callblast_formatter_callblast_list($element) {
  *  array, I think this is the $element being passed by CCK here.
  */
 function theme_callblast_formatter_callblast_list_title($element) {
+  //debug
+  $txt = 'entering function theme_callblast_formatter_callblast_list_title($element) ';
+  $txt .= ' @param $element: '. print_r($element);
+  callblast_debug($txt);
+
   $output = callblast_list_title($element['#item']['safe']);
   return $output;
 }
@@ -172,6 +206,11 @@ function theme_callblast_formatter_callblast_list_title($element) {
  * todo Replace this workaround with a proper Views handler to create a View Calls link.
  */
 function theme_callblast_formatter_callblast_list_calls_link($element) {
+  //debug
+  $txt = 'entering function theme_callblast_formatter_callblast_list_calls_link($element) ';
+  $txt .= ' @param $element: '. print_r($element);
+  $callblast_debug($txt);
+
   $txt = t('View Calls');
   $path = 'callstatus';
   $options = array('query' => 'callblast_nid='. $element['#node']->nid);
@@ -190,6 +229,11 @@ function theme_callblast_formatter_callblast_list_calls_link($element) {
  * todo Use hook_nodeapi and hook_menu_alter to actually prevent user from editing sent callblasts.
  */
 function theme_callblast_formatter_callblast_edit_link($element) {
+  //debug
+  $txt = 'entering function theme_callblast_formatter_callblast_edit_link($element) ';
+  $txt .= ' @param $element: '. print_r($element);
+  callblast_debug($txt);
+
   $node = $element['#node'];
   $blast_sent = $node->node_data_field_callblast_audio_file_field_blast_sent_value;
   // only return an edit link if blast has NOT been sent yet.
@@ -213,6 +257,9 @@ function theme_callblast_formatter_callblast_edit_link($element) {
  *  $output, html, content of block
  */
 function theme_callblast_block() {
+  //debug
+  $txt = 'entering function theme_callblast_block() ';
+  callblast_debug($txt);
   $output = '<div class="callblast">';
 
   // link to call blast page View
@@ -233,6 +280,13 @@ function theme_callblast_block() {
  * Implementation of hook_form_alter().
  */
 function callblast_form_alter(&$form, &$form_state, $form_id){
+  //debug
+  $txt = 'entering function callblast_form_alter(&$form, &$form_state, $form_id)';
+  $txt .= ' @param &$form: '. print_r($form);
+  $txt .= ' @param &$form_state: '. print_r($form_state);
+  $txt .= ' @param &$form_id: '. print_r($form_id);
+  callblast_debug($txt);
+
   // callblast node form
   if ($form_id == 'callblast_node_form') {
     // Form buttons: 
@@ -299,6 +353,11 @@ function callblast_form_alter(&$form, &$form_state, $form_id){
  * Implementation of hook_nodeapi().
  */
 function callblast_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  //debug
+  $txt = 'entering function callblast_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) ';
+  $txt .= '@param &$node: '. print_r($node); 
+  callblast_debug($txt);
+
   if ($op == 'presave' and $node->type == 'callblast') {
     // Only save callblast list name.
     // Don't store human readable name or '(((' ')))'
@@ -345,6 +404,10 @@ function callblast_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
  * Implementation of hook_cron().
  */
 function callblast_cron() {
+  //debug
+  $txt = 'entering function callblast_cron() ';
+  callblast_debug($txt);
+
   // Run scheduled call blasts.
   $x = callblast_run();
   // Process input
@@ -356,6 +419,10 @@ function callblast_cron() {
  * to correspoinding voipcall nids.
  */
 function callblast_process_input() {
+  //debug
+  $txt = 'entering function callblast_process_input() ';
+  callblast_debug($txt);
+
   // Get a list of unprocessed calls (where voipcall_nid = 0)
   $results = db_query("SELECT DISTINCT call_id FROM {callblast_input} WHERE voipcall_nid = 0 ");
   $call_ids = array();
@@ -383,6 +450,10 @@ function callblast_process_input() {
 * Callbacks are omitted because default handing is used.
 */
 function callblast_widget_info() {
+  //debug
+  $txt = 'entering function callblast_widget_info() ';
+  callblast_debug($txt);
+
   return array(
     // The machine name of the widget
     'callblast_calllist' => array(
@@ -426,6 +497,10 @@ function callblast_widget_info() {
 *   the form item for a single element for this field
 */
 function callblast_widget(&$form, &$form_state, $field, $items, $delta = 0) {
+  //debug
+  $txt = 'entering function callblast_widget(&$form, &$form_state, $field, $items, $delta = 0) ';
+  callblast_debug($txt);
+
   $element['value'] = array(
     '#title' => t('Call List'), 
     '#type' => 'textfield',
@@ -452,6 +527,10 @@ function callblast_widget(&$form, &$form_state, $field, $items, $delta = 0) {
  * hook_field_formatter_info()
  */
 function callblast_field_formatter_info() {
+  //debug
+  $txt = 'entering function callblast_field_formatter_info() ';
+  callblast_debug($txt);
+
   return array(
     'callblast_list' => array(
       'label' => 'Call List',

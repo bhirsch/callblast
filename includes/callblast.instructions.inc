@@ -7,6 +7,10 @@
  * 
  */
 function callblast_instructions_page() {
+  //debug
+  $txt = 'entering function callblast_instructions_page()';
+  callblast_debug($txt);
+
   $output = '';
 
   $steps = array();

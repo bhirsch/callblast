@@ -7,6 +7,10 @@
  * 
  */
 function callblast_recordings_page() {
+  //debug
+  $txt = 'entering function callblast_recordings_page() '
+  callblast_debug($txt);
+
   //$header = array('name', 'url', 'number', 'duration', 'uid');
   $header = array('recording', 'by', 'number', 'seconds');
 

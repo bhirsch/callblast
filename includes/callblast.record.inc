@@ -10,6 +10,10 @@
  *  array, see Form API
  */
 function callblast_record_form() {
+  //debug
+  $txt = 'function callblast_record_form()';
+  callblast_debug($txt);  
+
   $form['callblast']['name'] = array(
     '#type' => 'textfield', 
     '#title' => t('Message Name'), 
@@ -41,6 +45,12 @@ function callblast_record_form() {
  * TODO Should we give users a way to delete bad messages? 
  */ 
 function callblast_record_form_submit(&$form, &$form_state) {
+  //debug
+  $txt = 'function callblast_record_form_submit(&$form, &$form_state) ';
+  $txt .= '@param &$form: '. print_r($form);
+  $txt .= '@param &$form_state: '. print_r($form_state);
+  callblast_debug($txt);
+
 //dsm($form_state);
   global $user;
 

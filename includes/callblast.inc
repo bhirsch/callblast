@@ -15,6 +15,10 @@
  * node/add/callblast and node/edit/% forms.
  */
 function callblast_list_autocomplete() {
+  // debug
+  $txt = 'entering callblast_list_autocomplete()';
+  callblast_debug($txt);
+
   $items = array();
   $items = module_invoke_all('callblast_list');
   asort($items);
@@ -27,22 +31,17 @@ function callblast_list_autocomplete() {
 }
 
 /**
- * Implementation of hook_voip_get_script().
- */
-// TODO Delete? Is this still useful for anything? Cruft? 
-function callblast_voip_get_script() {
-  // TODO: this function should return callblast-specific scripts.  The "hello_world" script has already been defined by voip_tester.module
-  // NOTE: How to name scripts? <module_prefix>_name.xml? Do we need the .xml?
-  // NOTE: the following require once should assign the script to a variable and return that variable
-  require_once('hello_world.xml');
-}
-
-/**
  * Convert a list name to a machine-readable
  * text id, consisting only of numbers, lowercase  
  * letters and underscores.
  */
 function callblast_id($module, $name) {
+  // debug
+  $txt = 'entering callblast_id($module, $name) ';
+  $txt .= '@param $module: '. $module; 
+  $txt .= '@param $name: '. $name; 
+  callblast_debug($txt);
+
   $id = $module .'_'. $name;  
 
   // make lowercase
@@ -76,6 +75,11 @@ function callblast_id($module, $name) {
  * todo Add error handling to check for two lists with the same id and then throw an error message. 
  */
 function callblast_list_default($value) {
+  // debug
+  $txt = 'entering callblast_list_default($value) ';
+  $txt .= '@param $value: '. $value; 
+  callblast_debug($txt);
+
   $title = module_invoke_all('callblast_get_title', $value);  
   if ($title[0]) {
     return $title[0] .'  ((('. $value .')))';
@@ -90,6 +94,11 @@ function callblast_list_default($value) {
  * todo Add error handling to check for two lists with the same id and then throw an error message. 
  */
 function callblast_list_title($value) {
+  // debug
+  $txt = 'entering callblast_list_title($value) ';
+  $txt .= '@param $value: '. $value; 
+  callblast_debug($txt);
+
   $title = module_invoke_all('callblast_get_title', $value);  
   if ($title[0]) {
     return $title[0];
@@ -109,6 +118,11 @@ function callblast_list_title($value) {
  *  string, callblast list selected on callblast node.
  */
 function callblast_list($node) {
+  // debug
+  $txt = 'entering callblast_list($node) ';
+  $txt .= '@param $node: '. print_r($node); 
+  callblast_debug($txt);
+
   $list_name = check_plain($node->field_callblast_calllist[0]['value']);
   $list = module_invoke_all('callblast_get_list', $list_name);
 
@@ -123,6 +137,12 @@ function callblast_list($node) {
  *  $node, object, a callblast node.
  */
 function callblast_save_voipcalls($list, $node) {
+  // debug
+  $txt = 'entering callblast_save_voipcalls($list, $node) ';
+  $txt .= '@param $list: '. $list; 
+  $txt .= '@param $node: '. print_r($node); 
+  callblast_debug($txt);
+
   global $base_url;
 
   // generic call details from callblast node
@@ -167,6 +187,10 @@ function callblast_save_voipcalls($list, $node) {
  * Send scheduled call blasts.
  */
 function callblast_run() {
+  // debug
+  $txt = 'entering callblast_run() ';
+  callblast_debug($txt);
+
   // Check for call blasts that have been scheduled but not sent.
   $sql = "SELECT n.nid, n.vid " 
         ."FROM {node} n " 
@@ -204,6 +228,11 @@ function callblast_run() {
  *  $node, callblast node object.
  */
 function callblast_send($node) {
+  // debug
+  $txt = 'entering callblast_send($node) ';
+  $txt .= '@param $node: '. print_r($node);
+  callblast_debug($txt);
+
   // Save call blast start time.
   $node->field_callblast_start[0]['value'] = time();
 
@@ -249,6 +278,12 @@ function callblast_send($node) {
  * "Send Now" button on callblast node edit forms.
  */
 function _callblast_send_now($form, $form_state) {
+  // debug
+  $txt = 'entering _callblast_send_now($form, $form_state) ';
+  $txt .= '@param $form: '. print_r($form);
+  $txt .= '@param $form_state: '. print_r($form_state);
+  callblast_debug($txt);
+
   $node = node_load($form_state['nid']);
   callblast_send($node);
 }
@@ -265,6 +300,12 @@ function _callblast_send_now($form, $form_state) {
  *  node to be sent.
  */
 function _callblast_call($callblast_nid, $voipcall_nid) {
+  // debug
+  $txt = 'entering _callblast_call($callblast_nid, $voipcall_nid) ';
+  $txt .= '@param $callblast_nid: '. print_r($callblast_nid);
+  $txt .= '@param $voipcall_nid: '. print_r($voiopcall_nid);
+  callblast_debug($txt);
+
   $voipcall_node = node_load($voipcall_nid);    
   // set call status to 'calling'
   $callblast_call->voipcall_nid = $voipcall_nid;
@@ -286,6 +327,10 @@ function _callblast_call($callblast_nid, $voipcall_nid) {
  *  - $recordings[n]['uid'] => $url;
  */
 function callblast_get_recordings() {
+  // debug
+  $txt = 'entering callblast_get_recordings() ';
+  callblast_debug($txt);
+
   $results = db_query("SELECT * FROM {callblast_recording} ");
   $recordings = array();
   $i = 0;
@@ -309,6 +354,11 @@ function callblast_get_recordings() {
  *  array, input digits in the order they were pushed by a listener during a call blast.
  */
 function callblast_get_input($nid) {
+  // debug
+  $txt = 'entering callblast_get_input($nid) ';
+  $txt .= '@param $nid: '. $nid;
+  callblast_debug($txt);
+
   $results = db_query("SELECT input_digits FROM {callblast_input} "
                      ."WHERE voipcall_nid = %d "
                      ."ORDER BY input_id ASC ", $nid );
@@ -328,6 +378,11 @@ function callblast_get_input($nid) {
  *  Specifically, URLs of messages to be played.
  */
 function _callblast_message_vars($node) {
+  // debug
+  $txt = 'entering _callblast_message_vars($node) ';
+  $txt .= '@param $node: '. print_r($node);
+  callblast_debug($txt);
+
   global $base_url;
 
   // call forwarding number
@@ -441,6 +496,11 @@ function _callblast_message_vars($node) {
  * - 'canceled' - call was queued then canceled before it went out
  */ 
 function callblast_set_call_status($callblast_call) {
+  // debug
+  $txt = 'entering callblast_set_call_status($callblast_call) ';
+  $txt .= '@param $node: '. print_r($node);
+  callblast_debug($txt);
+
   if (!$callblast_call->update) {
     // New voipcall
     drupal_write_record('callblast_call', $callblast_call);
@@ -459,6 +519,11 @@ function callblast_set_call_status($callblast_call) {
  *  int, node id of callblast this voipcall belongs to
  */
 function callblast_get_callblast_nid($voipcall_nid) {
+  // debug
+  $txt = 'entering function callblast_get_callblast_nid($voipcall_nid) ';
+  $txt .= '@param $voipcall_nid: '. $voipcall_nid;
+  callblast_debug($txt);
+
   $sql = "SELECT callblast_nid FROM {callblast_call} WHERE voipcall_nid = %d ";
   $callblast_nid = db_result(db_query($sql, $voipcall_nid));
   if ($callblast_nid) {
@@ -477,6 +542,11 @@ function callblast_get_callblast_nid($voipcall_nid) {
  *  int, node id of callblast being sent
  */
 function callblast_send_next_call($callblast_nid) {
+  // debug
+  $txt = 'entering function callblast_send_next_call($callblast_nid) ';
+  $txt .= '@param $callblast_nid: '. $callblast_nid;
+  callblast_debug($txt);
+
   // Check queue size.
   $queue_size = variable_get('callblast_queue_size', 10);
   // Check how many calls are currently being called.
@@ -494,4 +564,14 @@ function callblast_send_next_call($callblast_nid) {
   }
 
 //TODO QUEUE 5. When there are no more calls in the queue, set callblast to "complete", set end time for callblast here.  
+}
+
+/**
+ * 
+ */
+function callblast_debug($txt) {
+  $debug = variable_get('callblast_debug', FALSE);
+  if ($debug) {
+    watchdog('callblast debug', $txt);
+  }
 }

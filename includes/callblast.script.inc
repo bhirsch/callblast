@@ -30,6 +30,11 @@
  *  $vars = array('name' => $name, 'number' => $number));
  */
 function callblast_voipscript_load_script($script_name, $vars = NULL) {
+  //debug
+  $txt = 'entering function callblast_voipscript_load_script($script_name, $vars = NULL) ';
+  $txt .= ' @param $script_name: '. $script_name;
+  $txt .= ' @param $vars: '. print_r($vars);
+  callblast_debug($txt);
 
   $script = NULL;
   switch ($script_name) {
@@ -253,6 +258,15 @@ function callblast_voipscript_load_script($script_name, $vars = NULL) {
  * @see hook_voipscript_load_script()
  */
 function _callblast_record_callback($call_id, $recording_url, $recording_duration, $uid, $name, $number) {
+  $txt = 'entering function _callblast_record_callback($call_id, $recording_url, $recording_duration, $uid, $name, $number) ';
+  $txt .= ' @param $call_id: '. $call_id;
+  $txt .= ' @param $recording_url: '. $recording_url;
+  $txt .= ' @param $recording_duration: '. $recording_duration;
+  $txt .= ' @param $uid: '. $uid;
+  $txt .= ' @param $name: '. $name;
+  $txt .= ' @param $number: '. $number;
+  callblast_debug($txt);
+
   // Note: Do not replace $call_id and $recording_url with '%s' here, it will cause mysql errors.
   $sql = "INSERT INTO {callblast_recording} (call_id, url, uid, name, number, duration) " 
           ."VALUES ('$call_id', '$recording_url', %d, '%s', '%s', %d) ";
@@ -283,6 +297,12 @@ function _callblast_record_callback($call_id, $recording_url, $recording_duratio
  *  boolean
  */
 function _callblast_input($input_digits, $call_id) {
+  //debug
+  $txt = 'entering function _callblast_input($input_digits, $call_id) ';
+  $txt .= ' @param $input_digits: '. $input_digits;
+  $txt .= ' @param $call_id: '. $call_id;
+  callblast_debug($txt); 
+
   // save user input to input table
   db_query("INSERT INTO {callblast_input} (call_id, input_digits) " 
           ."VALUES ('$call_id', '$input_digits') ");

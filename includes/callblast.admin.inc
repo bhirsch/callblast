@@ -10,6 +10,10 @@
  *  @see system_settings_form().
  */
 function callblast_admin_settings() {
+  // debug
+  $txt = 'function callblast_admin_settings()';
+  callblast_debug($txt);
+
   $form['callblast_queue_size'] = array(
     '#title' => t('Queue Size'),
     '#type' => 'textfield',
